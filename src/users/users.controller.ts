@@ -1,5 +1,5 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common'
-import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger'
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common'
+import { ApiCreatedResponse, ApiOkResponse, ApiQuery, ApiTags } from '@nestjs/swagger'
 
 import { UsersService } from './users.service'
 import { User } from './entities/user.entities'
@@ -11,9 +11,10 @@ export class UsersController {
   constructor(private usersService: UsersService) {}
 
   @ApiOkResponse({ type: User, isArray: true })
+  @ApiQuery({ name: 'name', required: false })
   @Get()
-  getAllUsers(): Array<User> {
-    return this.usersService.findAll()
+  getUsers(@Query('name') name: string): Array<User> {
+    return this.usersService.findAll(name)
   }
 
   @ApiOkResponse({ type: User, description: 'The User' })

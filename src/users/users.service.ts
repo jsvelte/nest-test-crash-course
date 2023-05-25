@@ -16,7 +16,10 @@ export class UsersService {
     }
   ]
 
-  findAll(): Array<User> {
+  findAll(name?: string): Array<User> {
+    if (name) {
+      return this.users.filter((user) => user.name === name)
+    }
     return this.users
   }
 
